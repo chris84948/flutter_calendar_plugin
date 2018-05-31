@@ -1,6 +1,8 @@
-# flutter_calendar_plugin
+# Flutter Calendar Plugin
 
 Calendar plugin for Flutter to add, edit and delete events
+
+Definitely a work in progress right now. Do not attempt to use.
 
 ## Getting Started
 
