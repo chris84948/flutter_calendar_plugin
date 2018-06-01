@@ -1,16 +1,25 @@
 package com.chrisbjohnson.fluttercalendarplugin;
 
 import android.Manifest;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
+import android.provider.CalendarContract;
 import android.util.Log;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.TimeZone;
 
 import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
@@ -27,8 +36,15 @@ public class FlutterCalendarPlugin implements MethodCallHandler, PluginRegistry.
   private static final int ADD_EVENT_REQUESTCODE = 1;
   private static final int UPDATE_EVENT_REQUESTCODE = 2;
   private static final int DELETE_EVENT_REQUESTCODE = 3;
+  private static final int LIST_CALENDARS_REQUESTCODE = 4;
   private static final String[] REQUIRED_PERMISSIONS = new String[]{Manifest.permission.WRITE_CALENDAR, Manifest.permission.READ_CALENDAR};
+  final String[] EVENT_PROJECTION = new String[]{
+          CalendarContract.Calendars._ID,
+          CalendarContract.Calendars.CALENDAR_DISPLAY_NAME,
+  };
   private static final String CALENDER_EVENT_URI = "content://com.android.calendar/events";
+  private static final String CALENDAR_REMINDER_URI = "content://com.android.calendar/reminders";
+  private static final SimpleDateFormat DATEFORMAT = new SimpleDateFormat("yyyy-MM-dd' 'HH:mm");
 
   private PermissionCallback _permissionCallback;
   private Activity _activity;
@@ -81,21 +97,24 @@ public class FlutterCalendarPlugin implements MethodCallHandler, PluginRegistry.
     int requestCode = getRequestCodeFromMethodName(call.method);
 
     // Make sure we have calendar permissions before trying anything else
-    if (!areCalendarPermissionsValid())
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&
+            _activity.checkSelfPermission(REQUIRED_PERMISSIONS[0]) != PackageManager.PERMISSION_GRANTED)
       _activity.requestPermissions(REQUIRED_PERMISSIONS, requestCode);
     else
       result.success(getResultFromRequestCode(requestCode, call));
   }
 
-  private int getResultFromRequestCode(int requestCode, MethodCall call) {
+  private Object getResultFromRequestCode(int requestCode, MethodCall call) {
     if (requestCode == ADD_EVENT_REQUESTCODE)
-      return (int)addCalendarEvent();
+      return (int)addCalendarEvent(call);
     else if (requestCode == UPDATE_EVENT_REQUESTCODE)
-      return updateCalendarEvent(((Integer)(call.argument("eventID"))).longValue());
+      return updateCalendarEvent(call);
     else if (requestCode == DELETE_EVENT_REQUESTCODE)
       return deleteCalendarEvent(((Integer)(call.argument("eventID"))).longValue());
+    else if (requestCode == LIST_CALENDARS_REQUESTCODE)
+      return listAllCalendars();
     else
-    return -2;
+        return -2;
   }
 
   private int getRequestCodeFromMethodName(String methodName) {
@@ -106,113 +125,152 @@ public class FlutterCalendarPlugin implements MethodCallHandler, PluginRegistry.
         return UPDATE_EVENT_REQUESTCODE;
       case "deleteCalendarEvent":
         return DELETE_EVENT_REQUESTCODE;
+      case "listAllCalendars":
+        return LIST_CALENDARS_REQUESTCODE;
       default:
-        return 4;
+        return 5;
     }
   }
 
-  private boolean areCalendarPermissionsValid() {
-    return Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&
-            _activity.checkSelfPermission(REQUIRED_PERMISSIONS[0]) == PackageManager.PERMISSION_GRANTED;
+  @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+  @SuppressWarnings({"MissingPermission"})
+  public Map<Long,String> listAllCalendars() {
+    Map<Long,String> calendars = new HashMap<>();
+
+    final Uri uri = CalendarContract.Calendars.CONTENT_URI;
+    Cursor cursor = _activity.getApplicationContext()
+                             .getContentResolver()
+                             .query(uri, EVENT_PROJECTION, null, null, null);
+
+    while (cursor.moveToNext())
+      calendars.put(cursor.getLong(0), cursor.getString(1));
+
+    return calendars;
   }
 
-  public long addCalendarEvent() {
-    String dtStart = "2018-06-10 19:30";
-    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd' 'HH:mm");
-    long milliseconds = 0;
-    try { milliseconds = format.parse(dtStart).getTime(); } catch (ParseException e) { }
-
-    return addAppointmentsToCalender(_activity,
-            "Test Event",
-            "Testing out sending an appointment from Android",
-            "2807 Virginia Ave S",
-            0,
-            milliseconds,
-            true);
-  }
-
-  public long addAppointmentsToCalender(Activity curActivity,
-                                        String title,
-                                        String desc,
-                                        String place,
-                                        int status,
-                                        long startDate,
-                                        boolean needReminder) {
-    long eventID = -1;
+  public long addCalendarEvent(MethodCall call) {
     try {
       ContentValues eventValues = new ContentValues();
-      eventValues.put("calendar_id", 1); // id, We need to choose from
-      // our mobile for primary its 1
-      eventValues.put("title", title);
-      eventValues.put("description", desc);
-      eventValues.put("eventLocation", place);
+      eventValues.put("calendar_id", ((Integer)call.argument("calendarID")).longValue());
+      eventValues.put("title", (String)call.argument("title"));
+      eventValues.put("eventTimezone", TimeZone.getDefault().getID());
+      eventValues.put("hasAttendeeData", false);
 
-      long endDate = startDate + 1000 * 10 * 10; // For next 10min
-      eventValues.put("dtstart", startDate);
-      eventValues.put("dtend", endDate);
+      Calendar cal = Calendar.getInstance();
+      cal.setTime(DATEFORMAT.parse((String)call.argument("startTime")));
 
-      // values.put("allDay", 1); //If it is bithday alarm or such
-      // kind (which should remind me for whole day) 0 for false, 1
-      // for true
-      eventValues.put("eventStatus", status); // This information is
-      // sufficient for most
-      // entries tentative (0),
-      // confirmed (1) or canceled
-      // (2):
-      eventValues.put("eventTimezone", "UTC/GMT +5:30");
-      /*
-       * Comment below visibility and transparency column to avoid
-       * java.lang.IllegalArgumentException column visibility is invalid
-       * error
-       */
-      // eventValues.put("allDay", 1);
-      // eventValues.put("visibility", 0); // visibility to default (0),
-      // confidential (1), private
-      // (2), or public (3):
-      // eventValues.put("transparency", 0); // You can control whether
-      // an event consumes time
-      // opaque (0) or transparent (1).
-
-      eventValues.put("hasAlarm", 1); // 0 for false, 1 for true
-
-      Uri eventUri = curActivity.getApplicationContext()
-              .getContentResolver()
-              .insert(Uri.parse(CALENDER_EVENT_URI), eventValues);
-      eventID = Long.parseLong(eventUri.getLastPathSegment());
-
-      if (needReminder) {
-        /***************** Event: Reminder(with alert) Adding reminder to event ***********        ********/
-
-        String reminderUriString = "content://com.android.calendar/reminders";
-        ContentValues reminderValues = new ContentValues();
-        reminderValues.put("event_id", eventID);
-        reminderValues.put("minutes", 5); // Default value of the
-        // system. Minutes is a integer
-        reminderValues.put("method", 1); // Alert Methods: Default(0),
-        // Alert(1), Email(2),SMS(3)
-
-        Uri reminderUri = curActivity.getApplicationContext()
-                .getContentResolver()
-                .insert(Uri.parse(reminderUriString), reminderValues);
+      if (call.hasArgument("allDay")) {
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
+        eventValues.put("dtstart", cal.getTimeInMillis());
+        eventValues.put("dtend", cal.getTimeInMillis());
+        eventValues.put("allDay", 1);
+      } else {
+        eventValues.put("dtstart", cal.getTimeInMillis());
+        long endDate = cal.getTimeInMillis() + (1000 * 60 * (int)call.argument("durationInMins"));
+        eventValues.put("dtend", endDate);
       }
 
+      if (call.hasArgument("description"))
+        eventValues.put("description", (String)call.argument("description"));
+
+      if (call.hasArgument("location"))
+        eventValues.put("eventLocation", (String)call.argument("location"));
+
+      boolean addReminder = call.hasArgument("addReminder");
+      if (addReminder) {
+        eventValues.put("hasAlarm", 1);
+      }
+
+      Uri eventUri = _activity.getApplicationContext()
+                              .getContentResolver()
+                              .insert(Uri.parse(CALENDER_EVENT_URI), eventValues);
+      long eventID = Long.parseLong(eventUri.getLastPathSegment());
+
+      if (addReminder) {
+        ContentValues reminderValues = new ContentValues();
+        reminderValues.put("event_id", eventID);
+        reminderValues.put("minutes", (int)call.argument("reminderWarningInMins"));
+        // Alert Methods: Default(0), Alert(1), Email(2), SMS(3)
+        reminderValues.put("method", (int)call.argument("reminderType"));
+
+        _activity.getApplicationContext()
+                 .getContentResolver()
+                 .insert(Uri.parse(CALENDAR_REMINDER_URI), reminderValues);
+      }
+
+      return eventID;
     } catch (Exception ex) {
       Log.i("CalendarTest","Error in adding event on calendar" + ex.getMessage());
+      return -1;
     }
-
-    return eventID;
-
   }
 
-  private int updateCalendarEvent(long eventID) {
-    ContentValues event = new ContentValues();
+  private int updateCalendarEvent(MethodCall call) {
+    try {
+      ContentValues eventValues = new ContentValues();
 
-    event.put("title", "Changed Event Title");
+      if (call.hasArgument("calendarID"))
+        eventValues.put("calendar_id", ((Integer)call.argument("calendarID")).longValue());
 
-    Uri eventsUri = Uri.parse(CALENDER_EVENT_URI);
-    Uri eventUri = ContentUris.withAppendedId(eventsUri, eventID);
+      if (call.hasArgument("title"))
+        eventValues.put("title", (String)call.argument("title"));
 
-    return _activity.getContentResolver().update(eventUri, event, null, null);
+      Calendar cal = Calendar.getInstance();
+
+      if (call.hasArgument("startTime"))
+        cal.setTime(DATEFORMAT.parse((String)call.argument("startTime")));
+
+      if (call.hasArgument("allDay")) {
+        if (call.hasArgument("startTime")) {
+          cal.set(Calendar.HOUR_OF_DAY, 0);
+          cal.set(Calendar.MINUTE, 0);
+          eventValues.put("dtstart", cal.getTimeInMillis());
+          eventValues.put("dtend", cal.getTimeInMillis());
+          eventValues.put("allDay", 1);
+        }
+      } else {
+        if (call.hasArgument("startTime"))
+          eventValues.put("dtstart", cal.getTimeInMillis());
+
+        if (call.hasArgument("startTime")) {
+          long endDate = cal.getTimeInMillis() + (1000 * 60 * (int)call.argument("durationInMins"));
+          eventValues.put("dtend", endDate);
+        }
+      }
+
+      if (call.hasArgument("description"))
+        eventValues.put("description", (String)call.argument("description"));
+
+      if (call.hasArgument("location"))
+        eventValues.put("eventLocation", (String)call.argument("location"));
+
+      boolean addReminder = call.hasArgument("addReminder");
+      if (addReminder) {
+        eventValues.put("hasAlarm", 1);
+      }
+
+      long eventID = ((Integer)(call.argument("eventID"))).longValue();
+
+      if (addReminder) {
+        ContentValues reminderValues = new ContentValues();
+        reminderValues.put("event_id", eventID);
+        reminderValues.put("minutes", (int)call.argument("reminderWarningInMins"));
+        // Alert Methods: Default(0), Alert(1), Email(2), SMS(3)
+        reminderValues.put("method", (int)call.argument("reminderType"));
+
+        _activity.getApplicationContext()
+                .getContentResolver()
+                .insert(Uri.parse(CALENDAR_REMINDER_URI), reminderValues);
+      }
+
+      Uri eventUri = ContentUris.withAppendedId(Uri.parse(CALENDER_EVENT_URI), eventID);
+      return _activity.getContentResolver().update(eventUri, eventValues, null, null);
+
+    } catch (Exception ex) {
+      Log.i("CalendarTest","Error in updating event on calendar" + ex.getMessage());
+      return -1;
+    }
   }
 
   public int deleteCalendarEvent(long eventID) {

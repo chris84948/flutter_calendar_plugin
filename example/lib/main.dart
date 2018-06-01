@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter_calendar_plugin/flutter_calendar_plugin.dart';
+import 'package:flutter_calendar_plugin/FlutterCalendarPlugin.dart';
+import 'package:flutter_calendar_plugin_example/EventDetail.dart';
+import 'package:flutter_calendar_plugin_example/DialogEventDetail.dart';
 
 void main() => runApp(new MaterialApp(home: new MyApp()));
 
@@ -11,6 +13,19 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  List<Calendar> _calendars;
+
+  void loadCalendars() async {
+    _calendars = await FlutterCalendarPlugin.listAllCalendars();
+  }
+
+  @override
+  void initState() {
+
+    super.initState();
+    loadCalendars();
+  }
+
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
@@ -36,8 +51,51 @@ class _MyAppState extends State<MyApp> {
   }
 
   Future _addNewEvent() async {
-    int eventID = await FlutterCalendarPlugin.addCalendarEvent();
-    setState(() => widget.events.add(new EventItem("New Event", eventID)));
+    final EventDetail startingEventDetail = EventDetail.empty(_calendars[0]);
+    EventDetail eventDetail =
+    await Navigator.of(context).push(new MaterialPageRoute<EventDetail>(
+        builder: (BuildContext context) {
+          return new DialogEventDetail(startingEventDetail, _calendars);
+        },
+        fullscreenDialog: true));
+
+    int eventID = await FlutterCalendarPlugin.addCalendarEvent(
+        eventDetail.title,
+        eventDetail.startTime,
+        description: eventDetail.description,
+        location: eventDetail.location,
+        durationInMins: eventDetail.durationInMins,
+        allDay: eventDetail.allDay,
+        addReminder: eventDetail.addReminder,
+        reminderWarningInMins: eventDetail.reminderWarningInMins,
+        reminderType: eventDetail.reminderType,
+        calendarID: eventDetail.calendar.id);
+    setState(() => widget.events.add(new EventItem(eventID, eventDetail)));
+  }
+
+  Future _updateEvent(final EventItem item) async {
+    EventDetail eventDetail =
+    await Navigator.of(context).push(new MaterialPageRoute<EventDetail>(
+        builder: (BuildContext context) {
+          return new DialogEventDetail(item.eventDetail, _calendars);
+        },
+        fullscreenDialog: true));
+
+    await FlutterCalendarPlugin.updateCalendarEvent(
+        item.eventID,
+        title: eventDetail.title,
+        startTime: eventDetail.startTime,
+        description: eventDetail.description,
+        location: eventDetail.location,
+        durationInMins: eventDetail.durationInMins,
+        allDay: eventDetail.allDay,
+        addReminder: eventDetail.addReminder,
+        reminderWarningInMins: eventDetail.reminderWarningInMins,
+        reminderType: eventDetail.reminderType,
+        calendarID: eventDetail.calendar.id);
+    setState(() {
+      item.eventDetail = eventDetail;
+    });
   }
 
   Widget getEventItem(EventItem eventItem) {
@@ -48,36 +106,43 @@ class _MyAppState extends State<MyApp> {
           children: <Widget>[
             new Expanded(
               flex: 2,
-              child: new Text(eventItem.name),
+              child: new Text(eventItem.eventDetail.title),
             ),
             new Expanded(child: new Text(eventItem.eventID.toString())),
           ].toList(),
         ),
       ),
       onPressed: () async {
-        bool delete = await deleteItemDialog(context, "Delete this event?");
-        if (delete) {
+        DialogResponse response  = await itemClickedDialog(context, "What do you want to do?");
+        if (response == DialogResponse.Delete) {
           await FlutterCalendarPlugin.deleteCalendarEvent(eventItem.eventID);
           setState(() => widget.events.remove(eventItem));
+        } else if (response == DialogResponse.Update) {
+          await _updateEvent(eventItem);
         }
       },
     );
   }
 
-  Future<bool> deleteItemDialog(BuildContext context, String message) {
-    return showDialog<bool>(
+  Future<DialogResponse> itemClickedDialog(BuildContext context, String message) {
+    return showDialog<DialogResponse>(
       context: context,
       builder: (BuildContext context) {
         return new AlertDialog(content: new Text(message), actions: <Widget>[
           new FlatButton(
               child: const Text('CANCEL'),
               onPressed: () {
-                Navigator.of(context).pop(false);
+                Navigator.of(context).pop(DialogResponse.Cancel);
+              }),
+          new FlatButton(
+              child: const Text('UPDATE'),
+              onPressed: () {
+                Navigator.of(context).pop(DialogResponse.Update);
               }),
           new FlatButton(
               child: const Text('DELETE'),
               onPressed: () {
-                Navigator.of(context).pop(true);
+                Navigator.of(context).pop(DialogResponse.Delete);
               })
         ]);
       },
@@ -86,8 +151,14 @@ class _MyAppState extends State<MyApp> {
 }
 
 class EventItem {
-  EventItem(this.name, this.eventID);
+  EventItem(this.eventID, this.eventDetail);
 
   int eventID;
-  String name;
+  EventDetail eventDetail;
+}
+
+enum DialogResponse {
+  Cancel,
+  Update,
+  Delete
 }
