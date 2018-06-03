@@ -252,17 +252,17 @@ public class FlutterCalendarPlugin implements MethodCallHandler, PluginRegistry.
 
       long eventID = ((Integer)(call.argument("eventID"))).longValue();
 
+      // Delete all old reminders
+      _activity.getApplicationContext()
+               .getContentResolver()
+               .delete(Uri.parse(CALENDAR_REMINDER_URI), "event_id=?", new String[] { Long.toString(eventID) });
+
       if (addReminder) {
         ContentValues reminderValues = new ContentValues();
         reminderValues.put("event_id", eventID);
         reminderValues.put("minutes", (int)call.argument("reminderWarningInMins"));
         // Alert Methods: Default(0), Alert(1), Email(2), SMS(3)
         reminderValues.put("method", (int)call.argument("reminderType"));
-
-        // Delete all old reminders
-        _activity.getApplicationContext()
-                .getContentResolver()
-                .delete(Uri.parse(CALENDAR_REMINDER_URI), "event_id=?", new String[] { Long.toString(eventID) });
 
         _activity.getApplicationContext()
                 .getContentResolver()
@@ -279,6 +279,11 @@ public class FlutterCalendarPlugin implements MethodCallHandler, PluginRegistry.
   }
 
   public int deleteCalendarEvent(long eventID) {
+    // Delete all old reminders
+    _activity.getApplicationContext()
+            .getContentResolver()
+            .delete(Uri.parse(CALENDAR_REMINDER_URI), "event_id=?", new String[] { Long.toString(eventID) });
+
     Uri deleteUri = ContentUris.withAppendedId(Uri.parse(CALENDER_EVENT_URI), eventID);
     return _activity.getContentResolver().delete(deleteUri, null, null);
   }

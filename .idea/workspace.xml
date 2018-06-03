@@ -6,10 +6,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e1fc10cc-411c-4b48-8b56-fefbd35187b4" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/android/src/main/java/com/chrisbjohnson/fluttercalendarplugin/FlutterCalendarPlugin.java" afterPath="$PROJECT_DIR$/android/src/main/java/com/chrisbjohnson/fluttercalendarplugin/FlutterCalendarPlugin.java" />
-      <change beforePath="$PROJECT_DIR$/example/lib/main.dart" afterPath="$PROJECT_DIR$/example/lib/main.dart" />
-      <change beforePath="$PROJECT_DIR$/lib/FlutterCalendarPlugin.dart" afterPath="$PROJECT_DIR$/lib/FlutterCalendarPlugin.dart" />
     </list>
     <ignored path="$PROJECT_DIR$/.dart_tool/" />
     <ignored path="$PROJECT_DIR$/.idea/" />
@@ -39,8 +36,8 @@
       <file leaf-file-name="FlutterCalendarPlugin.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/android/src/main/java/com/chrisbjohnson/fluttercalendarplugin/FlutterCalendarPlugin.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="425">
-              <caret line="272" column="67" lean-forward="false" selection-start-line="272" selection-start-column="67" selection-end-line="272" selection-end-column="67" />
+            <state relative-caret-position="480">
+              <caret line="285" column="0" lean-forward="false" selection-start-line="285" selection-start-column="0" selection-end-line="285" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -519,7 +516,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info id="Android Profiler" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32887402" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -1142,8 +1138,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/android/src/main/java/com/chrisbjohnson/fluttercalendarplugin/FlutterCalendarPlugin.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="425">
-          <caret line="272" column="67" lean-forward="false" selection-start-line="272" selection-start-column="67" selection-end-line="272" selection-end-column="67" />
+        <state relative-caret-position="480">
+          <caret line="285" column="0" lean-forward="false" selection-start-line="285" selection-start-column="0" selection-end-line="285" selection-end-column="0" />
           <folding />
         </state>
       </provider>
