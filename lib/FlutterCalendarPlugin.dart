@@ -106,14 +106,11 @@ class FlutterCalendarPlugin {
     if (durationInMins != null)
       args["durationInMins"] = durationInMins;
 
-    if (addReminder != null)
+    if (addReminder != null) {
       args["addReminder"] = addReminder;
-
-    if (reminderWarningInMins != null)
-      args["reminderWarningInMins"] = reminderWarningInMins;
-
-    if (reminderType != null)
-      args["reminderType"] = reminderType?.index;
+      args["reminderWarningInMins"] = reminderWarningInMins ?? 30;
+      args["reminderType"] = reminderType?.index ?? ReminderType.alert.index;
+    }
 
     int result = await _channel.invokeMethod('updateCalendarEvent', args);
     return result;

@@ -259,6 +259,11 @@ public class FlutterCalendarPlugin implements MethodCallHandler, PluginRegistry.
         // Alert Methods: Default(0), Alert(1), Email(2), SMS(3)
         reminderValues.put("method", (int)call.argument("reminderType"));
 
+        // Delete all old reminders
+        _activity.getApplicationContext()
+                .getContentResolver()
+                .delete(Uri.parse(CALENDAR_REMINDER_URI), "event_id=?", new String[] { Long.toString(eventID) });
+
         _activity.getApplicationContext()
                 .getContentResolver()
                 .insert(Uri.parse(CALENDAR_REMINDER_URI), reminderValues);
