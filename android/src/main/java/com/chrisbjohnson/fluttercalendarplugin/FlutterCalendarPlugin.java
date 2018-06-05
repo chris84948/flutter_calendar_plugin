@@ -13,6 +13,7 @@ import android.provider.CalendarContract;
 import android.util.Log;
 
 import java.text.ParseException;
+import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -84,13 +85,17 @@ public class FlutterCalendarPlugin implements MethodCallHandler, PluginRegistry.
       @Override
       public void granted(int requestCode)
       {
-        result.success(getResultFromRequestCode(requestCode, call));
+        try {
+          result.success(getResultFromRequestCode(requestCode, call));
+        } catch (Exception ex) {
+          result.error("CALENDAR", ex.getMessage(), null);
+        }
       }
 
       @Override
       public void denied()
       {
-        result.success(-1);
+        result.error("PERMISSIONS", "Calendar permissions denied by user.", null);
       }
     };
 
@@ -98,13 +103,18 @@ public class FlutterCalendarPlugin implements MethodCallHandler, PluginRegistry.
 
     // Make sure we have calendar permissions before trying anything else
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&
-            _activity.checkSelfPermission(REQUIRED_PERMISSIONS[0]) != PackageManager.PERMISSION_GRANTED)
+            _activity.checkSelfPermission(REQUIRED_PERMISSIONS[0]) != PackageManager.PERMISSION_GRANTED) {
       _activity.requestPermissions(REQUIRED_PERMISSIONS, requestCode);
-    else
-      result.success(getResultFromRequestCode(requestCode, call));
+    } else {
+      try {
+        result.success(getResultFromRequestCode(requestCode, call));
+      } catch (Exception ex) {
+        result.error("CALENDAR", ex.getMessage(), null);
+      }
+    }
   }
 
-  private Object getResultFromRequestCode(int requestCode, MethodCall call) {
+  private Object getResultFromRequestCode(int requestCode, MethodCall call) throws ParseException {
     if (requestCode == ADD_EVENT_REQUESTCODE)
       return (int)addCalendarEvent(call);
     else if (requestCode == UPDATE_EVENT_REQUESTCODE)
@@ -148,8 +158,7 @@ public class FlutterCalendarPlugin implements MethodCallHandler, PluginRegistry.
     return calendars;
   }
 
-  public long addCalendarEvent(MethodCall call) {
-    try {
+  public long addCalendarEvent(MethodCall call) throws ParseException {
       ContentValues eventValues = new ContentValues();
       eventValues.put("calendar_id", ((Integer)call.argument("calendarID")).longValue());
       eventValues.put("title", (String)call.argument("title"));
@@ -200,14 +209,9 @@ public class FlutterCalendarPlugin implements MethodCallHandler, PluginRegistry.
       }
 
       return eventID;
-    } catch (Exception ex) {
-      Log.i("CalendarTest","Error in adding event on calendar" + ex.getMessage());
-      return -1;
-    }
   }
 
-  private int updateCalendarEvent(MethodCall call) {
-    try {
+  private int updateCalendarEvent(MethodCall call) throws ParseException {
       ContentValues eventValues = new ContentValues();
 
       if (call.hasArgument("calendarID"))
@@ -271,11 +275,6 @@ public class FlutterCalendarPlugin implements MethodCallHandler, PluginRegistry.
 
       Uri eventUri = ContentUris.withAppendedId(Uri.parse(CALENDER_EVENT_URI), eventID);
       return _activity.getContentResolver().update(eventUri, eventValues, null, null);
-
-    } catch (Exception ex) {
-      Log.i("CalendarTest","Error in updating event on calendar" + ex.getMessage());
-      return -1;
-    }
   }
 
   public int deleteCalendarEvent(long eventID) {

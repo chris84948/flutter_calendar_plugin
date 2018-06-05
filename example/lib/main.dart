@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_calendar_plugin/FlutterCalendarPlugin.dart';
 import 'package:flutter_calendar_plugin_example/EventDetail.dart';
 import 'package:flutter_calendar_plugin_example/DialogEventDetail.dart';
@@ -16,7 +17,11 @@ class _MyAppState extends State<MyApp> {
   List<Calendar> _calendars;
 
   void loadCalendars() async {
-    _calendars = await FlutterCalendarPlugin.listAllCalendars();
+    FlutterCalendarPlugin.listAllCalendars().then((cals) {
+      _calendars = cals;
+    }).catchError((PlatformException error) {
+      print(error);
+    });
   }
 
   @override

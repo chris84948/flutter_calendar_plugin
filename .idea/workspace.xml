@@ -6,7 +6,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e1fc10cc-411c-4b48-8b56-fefbd35187b4" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/android/src/main/java/com/chrisbjohnson/fluttercalendarplugin/FlutterCalendarPlugin.java" afterPath="$PROJECT_DIR$/android/src/main/java/com/chrisbjohnson/fluttercalendarplugin/FlutterCalendarPlugin.java" />
+      <change beforePath="$PROJECT_DIR$/example/lib/main.dart" afterPath="$PROJECT_DIR$/example/lib/main.dart" />
     </list>
     <ignored path="$PROJECT_DIR$/.dart_tool/" />
     <ignored path="$PROJECT_DIR$/.idea/" />
@@ -26,18 +28,31 @@
       <file leaf-file-name="FlutterCalendarPlugin.dart" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/lib/FlutterCalendarPlugin.dart">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="326">
-              <caret line="109" column="19" lean-forward="false" selection-start-line="109" selection-start-column="19" selection-end-line="109" selection-end-column="19" />
+            <state relative-caret-position="289">
+              <caret line="28" column="36" lean-forward="false" selection-start-line="28" selection-start-column="36" selection-end-line="28" selection-end-column="36" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="FlutterCalendarPlugin.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="FlutterCalendarPlugin.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/android/src/main/java/com/chrisbjohnson/fluttercalendarplugin/FlutterCalendarPlugin.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="480">
-              <caret line="285" column="0" lean-forward="false" selection-start-line="285" selection-start-column="0" selection-end-line="285" selection-end-column="0" />
+            <state relative-caret-position="446">
+              <caret line="108" column="11" lean-forward="false" selection-start-line="108" selection-start-column="11" selection-end-line="108" selection-end-column="11" />
+              <folding>
+                <element signature="e#3377#3378#0" expanded="true" />
+                <element signature="e#3468#3469#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="platform_channel.dart" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../flutter/packages/flutter/lib/src/services/platform_channel.dart">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="211">
+              <caret line="278" column="17" lean-forward="false" selection-start-line="278" selection-start-column="17" selection-end-line="278" selection-end-column="17" />
               <folding />
             </state>
           </provider>
@@ -46,7 +61,7 @@
       <file leaf-file-name="Context.class" pinned="false" current-in-tab="false">
         <entry file="jar://$USER_HOME$/AppData/Local/Android/Sdk/platforms/android-25/android.jar!/android/content/Context.class">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="210">
+            <state relative-caret-position="1683">
               <caret line="133" column="35" lean-forward="false" selection-start-line="133" selection-start-column="20" selection-end-line="133" selection-end-column="35" />
               <folding>
                 <marker date="1517601797351" expanded="false" signature="0:104" ph="/.../" />
@@ -132,57 +147,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TimeZone.class" pinned="false" current-in-tab="false">
-        <entry file="jar://$USER_HOME$/AppData/Local/Android/Sdk/platforms/android-25/android.jar!/java/util/TimeZone.class">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="816">
-              <caret line="75" column="27" lean-forward="false" selection-start-line="75" selection-start-column="27" selection-end-line="75" selection-end-column="27" />
-              <folding>
-                <marker date="1517601797351" expanded="false" signature="0:104" ph="/.../" />
-                <marker date="1517601797351" expanded="false" signature="323:334" ph=" { " />
-                <marker date="1517601797351" expanded="false" signature="370:376" ph=" }" />
-                <marker date="1517601797351" expanded="false" signature="509:520" ph=" { " />
-                <marker date="1517601797351" expanded="false" signature="556:562" ph=" }" />
-                <marker date="1517601797351" expanded="true" signature="680:691" ph=" { " />
-                <marker date="1517601797351" expanded="true" signature="727:733" ph=" }" />
-                <marker date="1517601797351" expanded="false" signature="767:778" ph=" { " />
-                <marker date="1517601797351" expanded="false" signature="814:820" ph=" }" />
-                <marker date="1517601797351" expanded="false" signature="862:873" ph=" { " />
-                <marker date="1517601797351" expanded="false" signature="909:915" ph=" }" />
-                <marker date="1517601797351" expanded="false" signature="970:981" ph=" { " />
-                <marker date="1517601797351" expanded="false" signature="1017:1023" ph=" }" />
-                <marker date="1517601797351" expanded="false" signature="1092:1103" ph=" { " />
-                <marker date="1517601797351" expanded="false" signature="1139:1145" ph=" }" />
-                <marker date="1517601797351" expanded="false" signature="1227:1238" ph=" { " />
-                <marker date="1517601797351" expanded="false" signature="1274:1280" ph=" }" />
-                <marker date="1517601797351" expanded="false" signature="1312:1323" ph=" { " />
-                <marker date="1517601797351" expanded="false" signature="1359:1365" ph=" }" />
-                <marker date="1517601797351" expanded="false" signature="1456:1467" ph=" { " />
-                <marker date="1517601797351" expanded="false" signature="1503:1509" ph=" }" />
-                <marker date="1517601797351" expanded="false" signature="1629:1640" ph=" { " />
-                <marker date="1517601797351" expanded="false" signature="1676:1682" ph=" }" />
-                <marker date="1517601797351" expanded="false" signature="1754:1765" ph=" { " />
-                <marker date="1517601797351" expanded="false" signature="1801:1807" ph=" }" />
-                <marker date="1517601797351" expanded="false" signature="1866:1877" ph=" { " />
-                <marker date="1517601797351" expanded="false" signature="1913:1919" ph=" }" />
-                <marker date="1517601797351" expanded="true" signature="1960:1971" ph=" { " />
-                <marker date="1517601797351" expanded="true" signature="2007:2013" ph=" }" />
-                <marker date="1517601797351" expanded="false" signature="2080:2091" ph=" { " />
-                <marker date="1517601797351" expanded="false" signature="2127:2133" ph=" }" />
-                <marker date="1517601797351" expanded="false" signature="2182:2193" ph=" { " />
-                <marker date="1517601797351" expanded="false" signature="2229:2235" ph=" }" />
-                <marker date="1517601797351" expanded="false" signature="2262:2273" ph=" { " />
-                <marker date="1517601797351" expanded="false" signature="2309:2315" ph=" }" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="main.dart" pinned="false" current-in-tab="false">
+      <file leaf-file-name="main.dart" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/example/lib/main.dart">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="345">
-              <caret line="89" column="35" lean-forward="false" selection-start-line="89" selection-start-column="35" selection-end-line="89" selection-end-column="35" />
+            <state relative-caret-position="357">
+              <caret line="21" column="37" lean-forward="false" selection-start-line="21" selection-start-column="37" selection-end-line="21" selection-end-column="37" />
               <folding>
                 <element signature="e#0#20#0" expanded="true" />
               </folding>
@@ -213,7 +182,7 @@
       <file leaf-file-name="DialogEventDetail.dart" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/example/lib/DialogEventDetail.dart">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="969">
+            <state relative-caret-position="901">
               <caret line="57" column="61" lean-forward="false" selection-start-line="57" selection-start-column="61" selection-end-line="57" selection-end-column="61" />
               <folding>
                 <element signature="e#0#39#0" expanded="true" />
@@ -252,6 +221,8 @@
       <find>eventID</find>
       <find>deleteCalendarEvent</find>
       <find>_calendars</find>
+      <find>listAllCalendars</find>
+      <find>getcalen</find>
     </findStrings>
     <replaceStrings>
       <replace>_activity</replace>
@@ -278,9 +249,9 @@
         <option value="$PROJECT_DIR$/example/lib/TextFieldExt.dart" />
         <option value="$PROJECT_DIR$/example/lib/DialogEventDetail.dart" />
         <option value="$PROJECT_DIR$/example/lib/EventDetail.dart" />
-        <option value="$PROJECT_DIR$/example/lib/main.dart" />
         <option value="$PROJECT_DIR$/lib/FlutterCalendarPlugin.dart" />
         <option value="$PROJECT_DIR$/android/src/main/java/com/chrisbjohnson/fluttercalendarplugin/FlutterCalendarPlugin.java" />
+        <option value="$PROJECT_DIR$/example/lib/main.dart" />
       </list>
     </option>
   </component>
@@ -306,8 +277,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
-      <pane id="Scratches" />
       <pane id="AndroidView" />
       <pane id="ProjectPane">
         <subPane>
@@ -376,6 +345,8 @@
         </subPane>
         <option name="show-excluded-files" value="false" />
       </pane>
+      <pane id="Scope" />
+      <pane id="Scratches" />
       <pane id="PackagesPane" />
     </panes>
   </component>
@@ -516,6 +487,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="Android Profiler" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32887402" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -534,10 +506,11 @@
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2521322" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32887402" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Device File Explorer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.26755852" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2664437" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Flutter Inspector" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15778251" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -549,7 +522,6 @@
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32995737" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="13" side_tool="true" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32887402" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -558,7 +530,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="22" />
+      <option name="time" value="27" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="FlutterRunConfigurationType">
@@ -657,7 +629,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1615">
           <caret line="95" column="84" lean-forward="false" selection-start-line="95" selection-start-column="84" selection-end-line="95" selection-end-column="84" />
-          <folding />
+          <folding>
+            <element signature="e#3377#3378#0" expanded="true" />
+            <element signature="e#3468#3469#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -672,15 +647,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="323">
           <caret line="25" column="17" lean-forward="false" selection-start-line="25" selection-start-column="17" selection-end-line="25" selection-end-column="17" />
-          <folding>
-            <marker date="1525981550397" expanded="false" signature="0:104" ph="/.../" />
-            <marker date="1525981550397" expanded="false" signature="148:190" ph="..." />
-            <marker date="1525981550397" expanded="true" signature="347:452" ph="{...}" />
-            <marker date="1525981550397" expanded="true" signature="482:493" ph=" { " />
-            <marker date="1525981550397" expanded="true" signature="515:521" ph=" }" />
-            <marker date="1525981550397" expanded="true" signature="561:922" ph="{...}" />
-            <marker date="1525981550397" expanded="true" signature="967:1337" ph="{...}" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -751,15 +717,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="323">
           <caret line="25" column="17" lean-forward="false" selection-start-line="25" selection-start-column="17" selection-end-line="25" selection-end-column="17" />
-          <folding>
-            <marker date="1525981550397" expanded="false" signature="0:104" ph="/.../" />
-            <marker date="1525981550397" expanded="false" signature="148:190" ph="..." />
-            <marker date="1525981550397" expanded="true" signature="347:452" ph="{...}" />
-            <marker date="1525981550397" expanded="true" signature="482:493" ph=" { " />
-            <marker date="1525981550397" expanded="true" signature="515:521" ph=" }" />
-            <marker date="1525981550397" expanded="true" signature="561:922" ph="{...}" />
-            <marker date="1525981550397" expanded="true" signature="967:1337" ph="{...}" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -774,7 +731,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="850">
           <caret line="69" column="4" lean-forward="false" selection-start-line="69" selection-start-column="4" selection-end-line="69" selection-end-column="4" />
-          <folding />
+          <folding>
+            <element signature="e#3377#3378#0" expanded="true" />
+            <element signature="e#3468#3469#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -939,21 +899,12 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="357">
           <caret line="25" column="17" lean-forward="false" selection-start-line="25" selection-start-column="17" selection-end-line="25" selection-end-column="17" />
-          <folding>
-            <marker date="1525981550397" expanded="false" signature="0:104" ph="/.../" />
-            <marker date="1525981550397" expanded="false" signature="148:190" ph="..." />
-            <marker date="1525981550397" expanded="true" signature="347:452" ph="{...}" />
-            <marker date="1525981550397" expanded="true" signature="482:493" ph=" { " />
-            <marker date="1525981550397" expanded="true" signature="515:521" ph=" }" />
-            <marker date="1525981550397" expanded="true" signature="561:922" ph="{...}" />
-            <marker date="1525981550397" expanded="true" signature="967:1337" ph="{...}" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="jar://$USER_HOME$/AppData/Local/Android/Sdk/platforms/android-25/android.jar!/java/util/TimeZone.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="816">
+        <state relative-caret-position="782">
           <caret line="75" column="27" lean-forward="false" selection-start-line="75" selection-start-column="27" selection-end-line="75" selection-end-column="27" />
           <folding>
             <marker date="1517601797351" expanded="false" signature="0:104" ph="/.../" />
@@ -1029,13 +980,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../flutter/packages/flutter/lib/src/services/platform_channel.dart">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="212">
-          <caret line="279" column="2" lean-forward="false" selection-start-line="279" selection-start-column="2" selection-end-line="279" selection-end-column="2" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/example/pubspec.yaml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="272">
@@ -1046,7 +990,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/example/lib/DialogEventDetail.dart">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="969">
+        <state relative-caret-position="901">
           <caret line="57" column="61" lean-forward="false" selection-start-line="57" selection-start-column="61" selection-end-line="57" selection-end-column="61" />
           <folding>
             <element signature="e#0#39#0" expanded="true" />
@@ -1062,27 +1006,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/example/lib/main.dart">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="345">
-          <caret line="89" column="35" lean-forward="false" selection-start-line="89" selection-start-column="35" selection-end-line="89" selection-end-column="35" />
-          <folding>
-            <element signature="e#0#20#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib/FlutterCalendarPlugin.dart">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="326">
-          <caret line="109" column="19" lean-forward="false" selection-start-line="109" selection-start-column="19" selection-end-line="109" selection-end-column="19" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$USER_HOME$/AppData/Local/Android/Sdk/platforms/android-25/android.jar!/android/content/Context.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
+        <state relative-caret-position="1683">
           <caret line="133" column="35" lean-forward="false" selection-start-line="133" selection-start-column="20" selection-end-line="133" selection-end-column="35" />
           <folding>
             <marker date="1517601797351" expanded="false" signature="0:104" ph="/.../" />
@@ -1136,11 +1062,40 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/../flutter/packages/flutter/lib/src/services/platform_channel.dart">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="211">
+          <caret line="278" column="17" lean-forward="false" selection-start-line="278" selection-start-column="17" selection-end-line="278" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/FlutterCalendarPlugin.dart">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="28" column="36" lean-forward="false" selection-start-line="28" selection-start-column="36" selection-end-line="28" selection-end-column="36" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/android/src/main/java/com/chrisbjohnson/fluttercalendarplugin/FlutterCalendarPlugin.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="480">
-          <caret line="285" column="0" lean-forward="false" selection-start-line="285" selection-start-column="0" selection-end-line="285" selection-end-column="0" />
-          <folding />
+        <state relative-caret-position="446">
+          <caret line="108" column="11" lean-forward="false" selection-start-line="108" selection-start-column="11" selection-end-line="108" selection-end-column="11" />
+          <folding>
+            <element signature="e#3377#3378#0" expanded="true" />
+            <element signature="e#3468#3469#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example/lib/main.dart">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="21" column="37" lean-forward="false" selection-start-line="21" selection-start-column="37" selection-end-line="21" selection-end-column="37" />
+          <folding>
+            <element signature="e#0#20#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
