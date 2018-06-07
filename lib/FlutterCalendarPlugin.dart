@@ -2,15 +2,10 @@ import 'dart:async';
 import 'package:intl/intl.dart';
 import 'package:flutter/services.dart';
 
-enum ReminderType {
-  system_default,
-  alert,
-  email,
-  sms
-}
+enum ReminderType { system_default, alert, email, sms }
 
 class Calendar {
-  int id;
+  String id;
   String name;
 
   Calendar(this.id, this.name);
@@ -33,27 +28,25 @@ class FlutterCalendarPlugin {
     return calendarItems;
   }
 
-  static Future<int> addCalendarEvent(String title,
-                                      DateTime startTime,
-                                      { int calendarID,
-                                        String description,
-                                        String location,
-                                        int durationInMins,
-                                        bool allDay,
-                                        bool addReminder,
-                                        int reminderWarningInMins,
-                                        ReminderType reminderType }) async {
+  static Future<String> addCalendarEvent(String title, DateTime startTime,
+      {String calendarID,
+      String description,
+      String location,
+      int durationInMins,
+      bool allDay,
+      bool addReminder,
+      int reminderWarningInMins,
+      ReminderType reminderType}) async {
     var args = new Map<String, dynamic>();
 
     args["title"] = title;
     args["startTime"] = _dateFormat.format(startTime);
-    args["calendarID"] = calendarID ?? 1;
+    args["calendarID"] = calendarID ?? "1";
 
     if (description != null && description != "")
       args["description"] = description;
 
-    if (location != null && location != "")
-      args["location"] = location;
+    if (location != null && location != "") args["location"] = location;
 
     // Have to pick one of these two options
     if (allDay != null && allDay)
@@ -70,41 +63,35 @@ class FlutterCalendarPlugin {
     return await _channel.invokeMethod('addCalendarEvent', args);
   }
 
-  static Future updateCalendarEvent(int eventID,
-                                    { int calendarID,
-                                      String title,
-                                      DateTime startTime,
-                                      String description,
-                                      String location,
-                                      int durationInMins,
-                                      bool allDay,
-                                      bool addReminder,
-                                      int reminderWarningInMins,
-                                      ReminderType reminderType }) async {
+  static Future updateCalendarEvent(String eventID,
+      {String calendarID,
+      String title,
+      DateTime startTime,
+      String description,
+      String location,
+      int durationInMins,
+      bool allDay,
+      bool addReminder,
+      int reminderWarningInMins,
+      ReminderType reminderType}) async {
     var args = new Map<String, dynamic>();
 
     args["eventID"] = eventID;
 
-    if (calendarID != null)
-      args["calendarID"] = calendarID;
+    if (calendarID != null) args["calendarID"] = calendarID;
 
-    if (title != null && title != "")
-      args["title"] = title;
+    if (title != null && title != "") args["title"] = title;
 
-    if (startTime != null)
-      args["startTime"] = _dateFormat.format(startTime);
+    if (startTime != null) args["startTime"] = _dateFormat.format(startTime);
 
     if (description != null && description != "")
       args["description"] = description;
 
-    if (location != null && location != "")
-      args["location"] = location;
+    if (location != null && location != "") args["location"] = location;
 
-    if (allDay != null)
-      args["allDay"] = allDay;
+    if (allDay != null) args["allDay"] = allDay;
 
-    if (durationInMins != null)
-      args["durationInMins"] = durationInMins;
+    if (durationInMins != null) args["durationInMins"] = durationInMins;
 
     if (addReminder != null) {
       args["addReminder"] = addReminder;
@@ -116,7 +103,9 @@ class FlutterCalendarPlugin {
     return result;
   }
 
-  static Future deleteCalendarEvent(int eventID) async {
-    await _channel.invokeMethod('deleteCalendarEvent', <String, dynamic>{ 'eventID': eventID, });
+  static Future deleteCalendarEvent(String eventID) async {
+    await _channel.invokeMethod('deleteCalendarEvent', <String, dynamic>{
+      'eventID': eventID,
+    });
   }
 }

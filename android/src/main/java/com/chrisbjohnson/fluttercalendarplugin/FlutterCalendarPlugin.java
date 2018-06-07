@@ -116,11 +116,11 @@ public class FlutterCalendarPlugin implements MethodCallHandler, PluginRegistry.
 
   private Object getResultFromRequestCode(int requestCode, MethodCall call) throws ParseException {
     if (requestCode == ADD_EVENT_REQUESTCODE)
-      return (int)addCalendarEvent(call);
+      return addCalendarEvent(call);
     else if (requestCode == UPDATE_EVENT_REQUESTCODE)
       return updateCalendarEvent(call);
     else if (requestCode == DELETE_EVENT_REQUESTCODE)
-      return deleteCalendarEvent(((Integer)(call.argument("eventID"))).longValue());
+      return deleteCalendarEvent((String)call.argument("eventID"));
     else if (requestCode == LIST_CALENDARS_REQUESTCODE)
       return listAllCalendars();
     else
@@ -144,8 +144,8 @@ public class FlutterCalendarPlugin implements MethodCallHandler, PluginRegistry.
 
   @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
   @SuppressWarnings({"MissingPermission"})
-  public Map<Long,String> listAllCalendars() {
-    Map<Long,String> calendars = new HashMap<>();
+  public Map<String, String> listAllCalendars() {
+    Map<String, String> calendars = new HashMap<>();
 
     final Uri uri = CalendarContract.Calendars.CONTENT_URI;
     Cursor cursor = _activity.getApplicationContext()
@@ -153,14 +153,14 @@ public class FlutterCalendarPlugin implements MethodCallHandler, PluginRegistry.
                              .query(uri, EVENT_PROJECTION, null, null, null);
 
     while (cursor.moveToNext())
-      calendars.put(cursor.getLong(0), cursor.getString(1));
+      calendars.put(Long.toString(cursor.getLong(0)), cursor.getString(1));
 
     return calendars;
   }
 
-  public long addCalendarEvent(MethodCall call) throws ParseException {
+  public String addCalendarEvent(MethodCall call) throws ParseException {
       ContentValues eventValues = new ContentValues();
-      eventValues.put("calendar_id", ((Integer)call.argument("calendarID")).longValue());
+      eventValues.put("calendar_id", (String)call.argument("calendarID"));
       eventValues.put("title", (String)call.argument("title"));
       eventValues.put("eventTimezone", TimeZone.getDefault().getID());
       eventValues.put("hasAttendeeData", false);
@@ -194,7 +194,7 @@ public class FlutterCalendarPlugin implements MethodCallHandler, PluginRegistry.
       Uri eventUri = _activity.getApplicationContext()
                               .getContentResolver()
                               .insert(Uri.parse(CALENDER_EVENT_URI), eventValues);
-      long eventID = Long.parseLong(eventUri.getLastPathSegment());
+      String eventID = eventUri.getLastPathSegment();
 
       if (addReminder) {
         ContentValues reminderValues = new ContentValues();
@@ -215,29 +215,23 @@ public class FlutterCalendarPlugin implements MethodCallHandler, PluginRegistry.
       ContentValues eventValues = new ContentValues();
 
       if (call.hasArgument("calendarID"))
-        eventValues.put("calendar_id", ((Integer)call.argument("calendarID")).longValue());
+        eventValues.put("calendar_id", (String)call.argument("calendarID"));
 
       if (call.hasArgument("title"))
         eventValues.put("title", (String)call.argument("title"));
 
-      Calendar cal = Calendar.getInstance();
-
-      if (call.hasArgument("startTime"))
+      if (call.hasArgument("startTime")) {
+        Calendar cal = Calendar.getInstance();
         cal.setTime(DATEFORMAT.parse((String)call.argument("startTime")));
 
-      if (call.hasArgument("allDay")) {
-        if (call.hasArgument("startTime")) {
+        if (call.hasArgument("allDay")) {
           cal.set(Calendar.HOUR_OF_DAY, 0);
           cal.set(Calendar.MINUTE, 0);
           eventValues.put("dtstart", cal.getTimeInMillis());
           eventValues.put("dtend", cal.getTimeInMillis());
           eventValues.put("allDay", 1);
-        }
-      } else {
-        if (call.hasArgument("startTime"))
+        } else {
           eventValues.put("dtstart", cal.getTimeInMillis());
-
-        if (call.hasArgument("startTime")) {
           long endDate = cal.getTimeInMillis() + (1000 * 60 * (int)call.argument("durationInMins"));
           eventValues.put("dtend", endDate);
         }
@@ -254,12 +248,12 @@ public class FlutterCalendarPlugin implements MethodCallHandler, PluginRegistry.
         eventValues.put("hasAlarm", 1);
       }
 
-      long eventID = ((Integer)(call.argument("eventID"))).longValue();
+      String eventID = (String)call.argument("eventID");
 
       // Delete all old reminders
       _activity.getApplicationContext()
                .getContentResolver()
-               .delete(Uri.parse(CALENDAR_REMINDER_URI), "event_id=?", new String[] { Long.toString(eventID) });
+               .delete(Uri.parse(CALENDAR_REMINDER_URI), "event_id=?", new String[] { eventID });
 
       if (addReminder) {
         ContentValues reminderValues = new ContentValues();
@@ -273,17 +267,17 @@ public class FlutterCalendarPlugin implements MethodCallHandler, PluginRegistry.
                 .insert(Uri.parse(CALENDAR_REMINDER_URI), reminderValues);
       }
 
-      Uri eventUri = ContentUris.withAppendedId(Uri.parse(CALENDER_EVENT_URI), eventID);
+      Uri eventUri = ContentUris.withAppendedId(Uri.parse(CALENDER_EVENT_URI), Long.parseLong(eventID));
       return _activity.getContentResolver().update(eventUri, eventValues, null, null);
   }
 
-  public int deleteCalendarEvent(long eventID) {
+  public int deleteCalendarEvent(String eventID) {
     // Delete all old reminders
     _activity.getApplicationContext()
-            .getContentResolver()
-            .delete(Uri.parse(CALENDAR_REMINDER_URI), "event_id=?", new String[] { Long.toString(eventID) });
+             .getContentResolver()
+             .delete(Uri.parse(CALENDAR_REMINDER_URI), "event_id=?", new String[] { eventID });
 
-    Uri deleteUri = ContentUris.withAppendedId(Uri.parse(CALENDER_EVENT_URI), eventID);
+    Uri deleteUri = ContentUris.withAppendedId(Uri.parse(CALENDER_EVENT_URI), Long.parseLong(eventID));
     return _activity.getContentResolver().delete(deleteUri, null, null);
   }
 }

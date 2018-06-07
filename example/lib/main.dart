@@ -57,15 +57,14 @@ class _MyAppState extends State<MyApp> {
   Future _addNewEvent() async {
     final EventDetail startingEventDetail = EventDetail.empty(_calendars[0]);
     EventDetail eventDetail =
-    await Navigator.of(context).push(new MaterialPageRoute<EventDetail>(
-        builder: (BuildContext context) {
-          return new DialogEventDetail(startingEventDetail, _calendars);
-        },
-        fullscreenDialog: true));
+        await Navigator.of(context).push(new MaterialPageRoute<EventDetail>(
+            builder: (BuildContext context) {
+              return new DialogEventDetail(startingEventDetail, _calendars);
+            },
+            fullscreenDialog: true));
 
-    int eventID = await FlutterCalendarPlugin.addCalendarEvent(
-        eventDetail.title,
-        eventDetail.startTime,
+    String eventID = await FlutterCalendarPlugin.addCalendarEvent(
+        eventDetail.title, eventDetail.startTime,
         description: eventDetail.description,
         location: eventDetail.location,
         durationInMins: eventDetail.durationInMins,
@@ -79,14 +78,13 @@ class _MyAppState extends State<MyApp> {
 
   Future _updateEvent(final EventItem item) async {
     EventDetail eventDetail =
-    await Navigator.of(context).push(new MaterialPageRoute<EventDetail>(
-        builder: (BuildContext context) {
-          return new DialogEventDetail(item.eventDetail, _calendars);
-        },
-        fullscreenDialog: true));
+        await Navigator.of(context).push(new MaterialPageRoute<EventDetail>(
+            builder: (BuildContext context) {
+              return new DialogEventDetail(item.eventDetail, _calendars);
+            },
+            fullscreenDialog: true));
 
-    await FlutterCalendarPlugin.updateCalendarEvent(
-        item.eventID,
+    await FlutterCalendarPlugin.updateCalendarEvent(item.eventID,
         title: eventDetail.title,
         startTime: eventDetail.startTime,
         description: eventDetail.description,
@@ -112,12 +110,13 @@ class _MyAppState extends State<MyApp> {
               flex: 2,
               child: new Text(eventItem.eventDetail.title),
             ),
-            new Expanded(child: new Text(eventItem.eventID.toString())),
+            new Expanded(child: new Text(eventItem.eventID)),
           ].toList(),
         ),
       ),
       onPressed: () async {
-        DialogResponse response  = await itemClickedDialog(context, "What do you want to do?");
+        DialogResponse response =
+            await itemClickedDialog(context, "What do you want to do?");
         if (response == DialogResponse.Delete) {
           await FlutterCalendarPlugin.deleteCalendarEvent(eventItem.eventID);
           setState(() => widget.events.remove(eventItem));
@@ -128,7 +127,8 @@ class _MyAppState extends State<MyApp> {
     );
   }
 
-  Future<DialogResponse> itemClickedDialog(BuildContext context, String message) {
+  Future<DialogResponse> itemClickedDialog(
+      BuildContext context, String message) {
     return showDialog<DialogResponse>(
       context: context,
       builder: (BuildContext context) {
@@ -157,12 +157,8 @@ class _MyAppState extends State<MyApp> {
 class EventItem {
   EventItem(this.eventID, this.eventDetail);
 
-  int eventID;
+  String eventID;
   EventDetail eventDetail;
 }
 
-enum DialogResponse {
-  Cancel,
-  Update,
-  Delete
-}
+enum DialogResponse { Cancel, Update, Delete }

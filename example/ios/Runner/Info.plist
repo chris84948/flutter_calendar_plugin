@@ -45,5 +45,7 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>NSCalendarsUsageDescription</key>
+	<string>Doula Life needs this permission to add events to your calendar. This information is only stored on your phone.</string>
 </dict>
 </plist>
