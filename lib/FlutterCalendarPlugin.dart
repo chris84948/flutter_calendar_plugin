@@ -104,7 +104,7 @@ class FlutterCalendarPlugin {
   }
 
   static Future deleteCalendarEvent(String eventID) async {
-    await _channel.invokeMethod('deleteCalendarEvent', <String, dynamic>{
+    await _channel.invokeMethod('deleteCalendarEvent', <String, String>{
       'eventID': eventID,
     });
   }

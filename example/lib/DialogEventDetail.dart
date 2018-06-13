@@ -31,6 +31,7 @@ class _DialogEventDetailState extends State<DialogEventDetail> {
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
+    final ios = theme.platform == TargetPlatform.iOS;
 
     return new Scaffold(
       appBar: new AppBar(title: new Text('Add New Event'), actions: <Widget>[
@@ -121,7 +122,7 @@ class _DialogEventDetailState extends State<DialogEventDetail> {
                         .eventDetail.reminderWarningInMins = int.parse(text),
                   )
                 : new Container(),
-            (widget.eventDetail.addReminder ?? false)
+            (widget.eventDetail.addReminder ?? false) && !ios
                 ? new Padding(
                     padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 10.0),
                     child: new DropdownButton(
