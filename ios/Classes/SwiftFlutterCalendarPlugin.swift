@@ -33,28 +33,40 @@ public class SwiftFlutterCalendarPlugin: NSObject, FlutterPlugin {
   func showEventsAcessDeniedAlert(_ call: FlutterMethodCall, _ result: @escaping FlutterResult) {
     let alertController = UIAlertController(title: "Doula Life Calendar Permission",
                                             message: "The calendar permission was not authorized. Please enable it in Settings to continue.",
-                                            preferredStyle: .Alert);
+                                            preferredStyle: .alert);
 
-    let settingsAction = UIAlertAction(title: "Settings", style: .Default) { 
+    let settingsAction = UIAlertAction(title: "Settings", style: .default) {
       (alertAction) in
       // This jumps to the settings area
-      if let appSettings = NSURL(string: UIApplicationOpenSettingsURLString) {
-        UIApplication.sharedApplication().openURL(appSettings, options: [:], completionHandler: {
-          (success) in
-          // We're back from our trip to the settings page, check permissions again and repond appropriately
-          let status = EKEventStore.authorizationStatus(for: .event);
-          onPermissionReturn(call, status == EKAuthorizationStatus.authorized, result);
-        });
+      if let appSettings = URL(string: UIApplicationOpenSettingsURLString) {
+        UIApplication.shared.openURL(appSettings)
+        if #available(iOS 10.0, *) {
+            UIApplication.shared.open(appSettings as URL, options: [:], completionHandler: {
+                (success) in
+                // We're back from our trip to the settings page, check permissions again and repond appropriately
+                let status = EKEventStore.authorizationStatus(for: .event);
+                self.onPermissionReturn(call, status == EKAuthorizationStatus.authorized, result: result);
+            })
+        } else {
+            if UIApplication.shared.canOpenURL(appSettings) {
+                UIApplication.shared.openURL(appSettings);
+            }
+        };
       }
     }
     alertController.addAction(settingsAction);
 
-    let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel) {
+    let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) {
       (alertAction) in
-      onPermissionReturn(call, false, result);
+        self.onPermissionReturn(call, false, result: result);
     }
+    alertController.addAction(cancelAction);
 
-    presentViewController(alertController, animated: true, completion: nil);
+    var topController = UIApplication.shared.keyWindow!.rootViewController as! UIViewController
+    while ((topController.presentedViewController) != nil) {
+        topController = topController.presentedViewController!;
+    }
+    topController.present(alertController, animated: true, completion: nil);
   }
   
   func onPermissionReturn(_ call: FlutterMethodCall, _ permissionGranted: Bool, result: @escaping FlutterResult) {
