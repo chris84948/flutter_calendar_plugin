@@ -16,19 +16,45 @@ public class SwiftFlutterCalendarPlugin: NSObject, FlutterPlugin {
   }
   
   private func requestPermissions(_ call: FlutterMethodCall, _ result: @escaping FlutterResult) {
-    if(hasPermissions()) {
+    let status = EKEventStore.authorizationStatus(for: .event)
+
+    if(status == EKAuthorizationStatus.authorized) {  // Granted Permission
       onPermissionReturn(call, true, result: result);
-    } else {
+    } else if (status == EKAuthorizationStatus.notDetermined) { // Request Permission
       _eventStore.requestAccess(to: .event, completion: {
         (accessGranted: Bool, error: Error?) in
-        self.onPermissionReturn(call, accessGranted, result: result);
-      })
+          self.onPermissionReturn(call, accessGranted, result: result);
+        })
+    } else if (status == EKAuthorizationStatus.denied) {  // Denied permission
+      showEventsAcessDeniedAlert(call, result);
     }
   }
-  
-  private func hasPermissions() -> Bool {
-    let status = EKEventStore.authorizationStatus(for: .event)
-    return status == EKAuthorizationStatus.authorized;
+
+  func showEventsAcessDeniedAlert(_ call: FlutterMethodCall, _ result: @escaping FlutterResult) {
+    let alertController = UIAlertController(title: "Doula Life Calendar Permission",
+                                            message: "The calendar permission was not authorized. Please enable it in Settings to continue.",
+                                            preferredStyle: .Alert);
+
+    let settingsAction = UIAlertAction(title: "Settings", style: .Default) { 
+      (alertAction) in
+      // This jumps to the settings area
+      if let appSettings = NSURL(string: UIApplicationOpenSettingsURLString) {
+        UIApplication.sharedApplication().openURL(appSettings, options: [:], completionHandler: {
+          (success) in
+          // We're back from our trip to the settings page, check permissions again and repond appropriately
+          let status = EKEventStore.authorizationStatus(for: .event);
+          onPermissionReturn(call, status == EKAuthorizationStatus.authorized, result);
+        });
+      }
+    }
+    alertController.addAction(settingsAction);
+
+    let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel) {
+      (alertAction) in
+      onPermissionReturn(call, false, result);
+    }
+
+    presentViewController(alertController, animated: true, completion: nil);
   }
   
   func onPermissionReturn(_ call: FlutterMethodCall, _ permissionGranted: Bool, result: @escaping FlutterResult) {
