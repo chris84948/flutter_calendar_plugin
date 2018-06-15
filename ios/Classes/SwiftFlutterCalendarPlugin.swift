@@ -61,7 +61,7 @@ public class SwiftFlutterCalendarPlugin: NSObject, FlutterPlugin {
         self.onPermissionReturn(call, false, result: result);
     }
     alertController.addAction(cancelAction);
-  
+
     var topController = UIApplication.shared.keyWindow!.rootViewController as! UIViewController
     while ((topController.presentedViewController) != nil) {
         topController = topController.presentedViewController!;
