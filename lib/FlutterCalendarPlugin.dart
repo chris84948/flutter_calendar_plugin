@@ -99,8 +99,7 @@ class FlutterCalendarPlugin {
       args["reminderType"] = reminderType?.index ?? ReminderType.alert.index;
     }
 
-    String result = await _channel.invokeMethod('updateCalendarEvent', args);
-    return result;
+    await _channel.invokeMethod('updateCalendarEvent', args);
   }
 
   static Future deleteCalendarEvent(String eventID) async {
