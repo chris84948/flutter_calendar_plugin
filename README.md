@@ -1,12 +1,14 @@
-# Flutter Calendar Plugin
+# flutter_calendar_plugin
 
 Calendar plugin for Flutter to add, edit and delete events
 
-Definitely a work in progress right now. Do not attempt to use.
-
 ## Getting Started
 
-For help getting started with Flutter, view our online
-[documentation](https://flutter.io/).
+This project is a starting point for a Flutter
+[plug-in package](https://flutter.dev/developing-packages/),
+a specialized package that includes platform-specific implementation code for
+Android and/or iOS.
 
-For help on editing plugin code, view the [documentation](https://flutter.io/platform-plugins/#edit-code).
+For help getting started with Flutter, view our 
+[online documentation](https://flutter.dev/docs), which offers tutorials, 
+samples, guidance on mobile development, and a full API reference.

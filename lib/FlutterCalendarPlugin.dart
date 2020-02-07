@@ -18,7 +18,7 @@ class FlutterCalendarPlugin {
   static final DateFormat _dateFormat = new DateFormat("yyyy-MM-dd HH:mm");
 
   static const MethodChannel _channel =
-      const MethodChannel('com.chrisbjohnson.flutter_calendar_plugin');
+  const MethodChannel('com.chrisbjohnson.flutter_calendar_plugin');
 
   static Future<List<Calendar>> listAllCalendars() async {
     dynamic result = await _channel.invokeMethod('listAllCalendars');
@@ -30,13 +30,13 @@ class FlutterCalendarPlugin {
 
   static Future<String> addCalendarEvent(String title, DateTime startTime,
       {String calendarID,
-      String description,
-      String location,
-      int durationInMins,
-      bool allDay,
-      bool addReminder,
-      int reminderWarningInMins,
-      ReminderType reminderType}) async {
+        String description,
+        String location,
+        int durationInMins,
+        bool allDay,
+        bool addReminder,
+        int reminderWarningInMins,
+        ReminderType reminderType}) async {
     var args = new Map<String, dynamic>();
 
     args["title"] = title;
@@ -65,15 +65,15 @@ class FlutterCalendarPlugin {
 
   static Future updateCalendarEvent(String eventID,
       {String calendarID,
-      String title,
-      DateTime startTime,
-      String description,
-      String location,
-      int durationInMins,
-      bool allDay,
-      bool addReminder,
-      int reminderWarningInMins,
-      ReminderType reminderType}) async {
+        String title,
+        DateTime startTime,
+        String description,
+        String location,
+        int durationInMins,
+        bool allDay,
+        bool addReminder,
+        int reminderWarningInMins,
+        ReminderType reminderType}) async {
     var args = new Map<String, dynamic>();
 
     args["eventID"] = eventID;
