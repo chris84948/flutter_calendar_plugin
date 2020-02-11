@@ -38,7 +38,7 @@ public class SwiftFlutterCalendarPlugin: NSObject, FlutterPlugin {
     let settingsAction = UIAlertAction(title: "Settings", style: .default) {
       (alertAction) in
       // This jumps to the settings area
-      if let appSettings = URL(string: UIApplicationOpenSettingsURLString) {
+      if let appSettings = URL(string: UIApplication.openSettingsURLString) {
         UIApplication.shared.openURL(appSettings)
         if #available(iOS 10.0, *) {
             UIApplication.shared.open(appSettings as URL, options: [:], completionHandler: {
