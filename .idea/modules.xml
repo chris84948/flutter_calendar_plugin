@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/flutter_calendar_plugin.iml" filepath="$PROJECT_DIR$/flutter_calendar_plugin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/flutter_calendar_plugin.iml" filepath="$PROJECT_DIR$/.idea/flutter_calendar_plugin.iml" />
       <module fileurl="file://$PROJECT_DIR$/android/flutter_calendar_plugin_android.iml" filepath="$PROJECT_DIR$/android/flutter_calendar_plugin_android.iml" />
-      <module fileurl="file://$PROJECT_DIR$/example/android/flutter_calendar_plugin_example_android.iml" filepath="$PROJECT_DIR$/example/android/flutter_calendar_plugin_example_android.iml" />
     </modules>
   </component>
 </project>
