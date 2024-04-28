@@ -4,7 +4,7 @@ import EventKit
 
 public class FlutterCalendarPlugin: NSObject, FlutterPlugin {
   public static func register(with registrar: FlutterPluginRegistrar) {
-    let channel = FlutterMethodChannel(name: "com.chrisbjohnson.flutter_calendar_plugin", binaryMessenger: registrar.messenger())
+    let channel = FlutterMethodChannel(name: "flutter_calendar_plugin", binaryMessenger: registrar.messenger())
     let instance = FlutterCalendarPlugin()
     registrar.addMethodCallDelegate(instance, channel: channel)
   }
@@ -29,7 +29,41 @@ public class FlutterCalendarPlugin: NSObject, FlutterPlugin {
       showEventsAccessDeniedAlert(call, result);
     }
   }
-
+    
+//    private func requestPermissions(_ call: FlutterMethodCall, _ result: @escaping FlutterResult) {
+//        if hasEventPermissions() {
+//            onPermissionReturn(call, true, result: result);
+//        }
+//        if #available(iOS 17, *) {
+//            _eventStore.requestFullAccessToEvents {
+//                (accessGranted: Bool, _: Error?) in
+//                if (accessGranted) {
+//                    self.onPermissionReturn(call, accessGranted, result: result);
+//                } else {
+//                    self.showEventsAccessDeniedAlert(call, result);
+//                }
+//            }
+//        } else {
+//            _eventStore.requestAccess(to: .event, completion: {
+//                (accessGranted: Bool, _: Error?) in
+//                if (accessGranted) {
+//                    self.onPermissionReturn(call, accessGranted, result: result);
+//                } else {
+//                    self.showEventsAccessDeniedAlert(call, result);
+//                }
+//            })
+//        }
+//    }
+//    
+//    private func hasEventPermissions() -> Bool {
+//        let status = EKEventStore.authorizationStatus(for: .event)
+//        if #available(iOS 17, *) {
+//            return status == EKAuthorizationStatus.fullAccess
+//        } else {
+//            return status == EKAuthorizationStatus.authorized
+//        }
+//    }
+    
   func showEventsAccessDeniedAlert(_ call: FlutterMethodCall, _ result: @escaping FlutterResult) {
     let alertController = UIAlertController(title: "Doula Life Calendar Permission",
                                             message: "The calendar permission was not authorized. Please enable it in Settings to continue.",
@@ -39,7 +73,7 @@ public class FlutterCalendarPlugin: NSObject, FlutterPlugin {
       (alertAction) in
       // This jumps to the settings area
       if let appSettings = URL(string: UIApplication.openSettingsURLString) {
-        UIApplication.shared.openURL(appSettings)
+        UIApplication.shared.open(appSettings)
         if #available(iOS 10.0, *) {
             UIApplication.shared.open(appSettings as URL, options: [:], completionHandler: {
                 (success) in
@@ -62,7 +96,7 @@ public class FlutterCalendarPlugin: NSObject, FlutterPlugin {
     }
     alertController.addAction(cancelAction);
 
-    var topController = UIApplication.shared.keyWindow!.rootViewController as! UIViewController
+      var topController = UIApplication.shared.keyWindow!.rootViewController!
     while ((topController.presentedViewController) != nil) {
         topController = topController.presentedViewController!;
     }
@@ -71,7 +105,7 @@ public class FlutterCalendarPlugin: NSObject, FlutterPlugin {
 
   func onPermissionReturn(_ call: FlutterMethodCall, _ permissionGranted: Bool, result: @escaping FlutterResult) {
     if (permissionGranted) {
-      if ("getPlatformVersion") {
+        if ("getPlatformVersion" == call.method) {
         result("iOS " + UIDevice.current.systemVersion)
       } else if ("listAllCalendars" == call.method) {
         return listAllCalendars(result);
@@ -112,7 +146,7 @@ public class FlutterCalendarPlugin: NSObject, FlutterPlugin {
     dateFormatter.dateFormat = "yyyy-MM-dd' 'HH:mm";
     let startDate = dateFormatter.date(from: (args!["startTime"] as! String));
 
-    event.title = args!["title"] as! String;
+      event.title = args!["title"] as? String;
 
     if (args!["allDay"] != nil) {
       event.startDate = startDate;
